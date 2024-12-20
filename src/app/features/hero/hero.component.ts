@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { TopbarComponent } from "./components/topbar/topbar.component";
-import { HeroListComponent } from './components/hero-list/hero-list.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [TopbarComponent, HeroListComponent],
+  imports: [TopbarComponent, RouterModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss'
 })

@@ -1,49 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-
-export interface heroeModel {
-  name: string;
-  power: string;
-  height: number;
-  weight: number;
-  enemy: string;
-}
-
-const ELEMENT_DATA: heroeModel[] = [
-  {
-    name: 'SpiderMan',
-    power: 'Sentidpo Aracnido',
-    height: 180,
-    weight: 65,
-    enemy: 'Venom',
-  },
-  {
-    name: 'Superman',
-    power: 'Super Fuerza',
-    height: 195,
-    weight: 80,
-    enemy: 'Criptonita',
-  },
-  {
-    name: 'Thor',
-    power: 'Fuerza, Dios',
-    height: 200,
-    weight: 100,
-    enemy: 'Thanos',
-  },
-  {
-    name: 'SpiderMan',
-    power: 'Sentidpo Aracnido',
-    height: 180,
-    weight: 65,
-    enemy: 'Venom',
-  },
-];
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { HeroeModel } from '../../models/heroe.model';
+import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
+import { combineLatest } from 'rxjs';
+import { HeroService } from 'src/app/features/services/hero.service';
 
 @Component({
   selector: 'app-hero-list',
@@ -54,12 +22,40 @@ const ELEMENT_DATA: heroeModel[] = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule,
+    RouterModule
   ],
   templateUrl: './hero-list.component.html',
   styleUrl: './hero-list.component.scss',
 })
 export class HeroListComponent {
-  displayedColumns: string[] = ['name', 'power', 'height', 'weight', 'enemy'];
-  dataSource = ELEMENT_DATA;
+  #heroService = inject(HeroService)
+  #dialog = inject(MatDialog)
+
+  displayedColumns: string[] = [
+    'name',
+    'power',
+    'height',
+    'weight',
+    'enemy',
+    'actions',
+  ];
+
+  dataSource: HeroeModel[] = [];
+
+  vm$ = combineLatest({
+    heroes: this.#heroService.getHeroe()
+  })
+
+  deleteHeroe(heroe: HeroeModel): void {
+    const dialogRef = this.#dialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: heroe,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }

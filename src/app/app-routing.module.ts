@@ -4,11 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./features/hero/hero.module').then((m) => m.HeroModule),
-  },];
+    loadChildren: () =>
+      import('./features/hero/hero.module').then((m) => m.HeroModule),
+  },
+  { path: '*', redirectTo: '', pathMatch: 'full' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
