@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --mat-toolbar-standard-height: 64px;
+    --bs-body-bg: #eee;
+    --mat-table-background-color: #fff;
+    --mat-toolbar-container-background-color: blue;
+    --mat-toolbar-container-text-color: white;
+    --mat-table-header-headline-font: "Raleway", serif;
+  }
+
+  body {
+    font-family: "Raleway", serif;
+  }
+table {
+    background: #fff;
+    box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    overflow: hidden;
+}
