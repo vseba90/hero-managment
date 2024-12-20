@@ -9,7 +9,8 @@ import {
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HeroService } from 'src/app/features/services/hero.service';
 
 @Component({
   selector: 'app-hero-upsert',
@@ -26,37 +27,57 @@ import { ActivatedRoute } from '@angular/router';
 export class UpsertHeroComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   #fb = inject(FormBuilder);
-  #location = inject(Location)
+  #router = inject(Router);
+  #location = inject(Location);
+  #heroesServices = inject(HeroService);
 
   heroeForm: FormGroup = this.#fb.group({
-    name: ['', Validators.compose([Validators.required])],
-    power: [
-      '',
-      Validators.compose([Validators.required, Validators.maxLength(100)]),
-    ],
-    height: ['', Validators.compose([Validators.required])],
-    weight: ['', Validators.compose([Validators.required])],
-    enemy: ['', Validators.compose([Validators.required])],
+    name: ['', Validators.required],
+    power: ['', Validators.required],
+    height: ['', Validators.required],
+    weight: ['', Validators.required],
+    enemy: ['', Validators.required],
   });
   id = this.activatedRoute.snapshot.params['id'];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.id) {
+      this.#heroesServices.getHeroById(this.id).subscribe((hero) => {
+        this.heroeForm.patchValue({
+          name: hero.name,
+          power: hero.power,
+          height: hero.height,
+          weight: hero.weight,
+          enemy: hero.enemy,
+        });
+      });
+    }
+  }
 
-  get f () {
-    return this.heroeForm.controls
+  get f() {
+    return this.heroeForm.controls;
   }
 
   goBack() {
-    this.#location.back()
+    this.#location.back();
   }
 
   submit() {
     const data = {
+      id: this.id,
       name: this.f.name.value,
       power: this.f.power.value,
       height: this.f.height.value,
       weight: this.f.weight.value,
-      enemy: this.f.enemy.value
+      enemy: this.f.enemy.value,
+    };
+
+    if (this.id) {
+      this.#heroesServices.putHero(data);
+      this.#router.navigate(['/list']);
+    } else {
+      this.#heroesServices.createHero(data);
+      this.#router.navigate(['/list']);
     }
   }
 }

@@ -11,31 +11,32 @@
         <div class="col-md-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Poderes</mat-label>
-                <input formControlName="name" matInput type="text" placeholder="Ingresar sus poderes">
+                <input formControlName="power" matInput type="text" placeholder="Ingresar sus poderes">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Peso</mat-label>
-                <input formControlName="name" matInput type="number" placeholder="Ingresar Peso">
+                <input formControlName="weight" matInput type="number" placeholder="Ingresar Peso">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Altura</mat-label>
-                <input formControlName="name" matInput type="number" placeholder="Ingresar Altura">
+                <input formControlName="height" matInput type="number" placeholder="Ingresar Altura">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Enemigo</mat-label>
-                <input formControlName="name" matInput type="text" placeholder="Su rival de siemper">
+                <input formControlName="enemy" matInput type="text" placeholder="Su rival de siemper">
             </mat-form-field>
         </div>
     </div>
+
     <div class="row justify-content-end">
         <div class="col-md-3">
-            <button class="w-100" mat-flat-button color="primary" cdkFocusInitial>{{id ? 'Editar Super Heroe' : 'Crear Super Heroe'}}</button>
+            <button class="w-100" mat-flat-button color="primary" [disabled]="heroeForm.invalid">{{id ? 'Editar Super Heroe' : 'Crear Super Heroe'}}</button>
         </div>
     </div>
 </form>

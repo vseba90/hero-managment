@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,13 +10,15 @@ import { HeroeModel } from '../../models/heroe.model';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
-import { combineLatest } from 'rxjs';
 import { HeroService } from 'src/app/features/services/hero.service';
+import { combineLatest } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hero-list',
   standalone: true,
   imports: [
+    CommonModule,
     MatTableModule,
     FormsModule,
     MatFormFieldModule,
@@ -24,14 +26,14 @@ import { HeroService } from 'src/app/features/services/hero.service';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './hero-list.component.html',
   styleUrl: './hero-list.component.scss',
 })
-export class HeroListComponent {
-  #heroService = inject(HeroService)
-  #dialog = inject(MatDialog)
+export class HeroListComponent implements OnInit {
+  #heroService = inject(HeroService);
+  #dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
     'name',
@@ -42,11 +44,14 @@ export class HeroListComponent {
     'actions',
   ];
 
-  dataSource: HeroeModel[] = [];
-
   vm$ = combineLatest({
-    heroes: this.#heroService.getHeroe()
-  })
+    heroes: this.#heroService.heroes.asObservable(),
+    isLoading: this.#heroService.isLoading$,
+  });
+
+  ngOnInit(): void {
+    this.#heroService.getHeroes();
+  }
 
   deleteHeroe(heroe: HeroeModel): void {
     const dialogRef = this.#dialog.open(DialogConfirmComponent, {
@@ -54,8 +59,8 @@ export class HeroListComponent {
       data: heroe,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((heroe) => {
+      this.#heroService.deleteHeroe(heroe.id)
     });
   }
 }
