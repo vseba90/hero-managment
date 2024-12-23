@@ -20,25 +20,6 @@ describe('HeroService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         HeroService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { params: { id: '1' } }, 
-            queryParams: of({}), 
-          },
-        },
-        {
-          provide: MatDialogRef,
-          useValue: {
-            close: jasmine.createSpy('close'),
-          },
-        },
-        {
-          provide: MatDialog,
-          useValue: {
-            open: jasmine.createSpy('open'),
-          },
-        },
       ],
     });
 
