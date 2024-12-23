@@ -2,11 +2,9 @@ import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -15,10 +13,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { NameCapitalizeDirective } from 'src/app/features/directive/name-capitalize';
 import { HeroService } from 'src/app/features/services/hero.service';
 import { SharedService } from 'src/app/features/services/shared.service';
 
@@ -29,7 +29,9 @@ import { SharedService } from 'src/app/features/services/shared.service';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
     ReactiveFormsModule,
+    NameCapitalizeDirective,
   ],
   templateUrl: './hero-upsert.component.html',
   styleUrl: './hero-upsert.component.scss',

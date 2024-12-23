@@ -1,14 +1,6 @@
 {
   "heroes": [
     {
-      "id": "5b16",
-      "name": "Spiderman",
-      "power": "Sentido Aracnidoi",
-      "height": 175,
-      "weight": 65,
-      "enemy": "Venom"
-    },
-    {
       "id": "5c10",
       "name": "Hulk",
       "power": "Verde",
@@ -31,6 +23,38 @@
       "height": 180,
       "weight": 100,
       "enemy": "Imanes"
+    },
+    {
+      "id": "18c4",
+      "name": "Batman",
+      "power": "Millonario",
+      "height": 300,
+      "weight": 150,
+      "enemy": "Marvel"
+    },
+    {
+      "id": "8e06",
+      "name": "La Roca",
+      "power": "Fuerza de Roca",
+      "height": 250,
+      "weight": 250,
+      "enemy": "El agua"
+    },
+    {
+      "id": "80ab",
+      "name": "Venom",
+      "power": "Mucosidad negra",
+      "height": 200,
+      "weight": 189,
+      "enemy": "Spiderman"
+    },
+    {
+      "id": "3596",
+      "name": "spiderman",
+      "power": "Poder Aracnido",
+      "height": 200,
+      "weight": 313,
+      "enemy": "Venom"
     }
   ]
 }

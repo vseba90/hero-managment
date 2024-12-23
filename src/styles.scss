@@ -2,23 +2,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  --mat-toolbar-standard-height: 64px;
-  --bs-body-bg: #eee;
-  --mat-table-background-color: #fff;
-  --mat-toolbar-container-background-color: #2b9e69;
-  --mat-toolbar-container-text-color: white;
-  --mat-table-header-headline-font: "Raleway", serif;
-  --mat-table-header-headline-weight: 700;
-  --mat-form-field-container-text-font: "Raleway", serif;
-  --mdc-filled-button-container-color: #2b9e69;
-  --mdc-filled-text-field-focus-label-text-color: #2b9e69;
-  --mdc-filled-text-field-focus-active-indicator-color: #2b9e69;
-  --mdc-filled-text-field-caret-color: #2b9e69;
-  --mdc-outlined-text-field-caret-color: #2b9e69;
+  --mat-toolbar-standard-height: 64px !important;
+  --bs-body-bg: #eee !important;
+  --mat-table-background-color: #fff !important;
+  --mat-toolbar-container-background-color: #2b9e69 !important;
+  --mat-toolbar-container-text-color: white !important;
+  --mat-table-header-headline-font: "Raleway", serif !important;
+  --mat-table-header-headline-weight: 700 !important;
+  --mat-form-field-container-text-font: "Raleway", serif !important;
+  --mdc-filled-button-container-color: #2b9e69 !important;
+  --mdc-filled-text-field-focus-label-text-color: #2b9e69 !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #2b9e69 !important;
+  --mdc-filled-text-field-caret-color: #2b9e69 !important;
+  --mat-option-selected-state-label-text-color: #2b9e69 !important;
+  --mdc-outlined-text-field-caret-color: #2b9e69 !important;
 }
 
 body {
-  font-family: "Raleway", serif;
+  font-family: "Raleway", serif !important;
 }
 
 h1 {
@@ -33,9 +34,20 @@ h1 {
   border-radius: 4px;
   overflow: hidden;
 }
-:host ::ng-deep{
 
-  .mat-mdc-unelevated-button:not(:disabled) {
-    background-color: #2b9e69;
+button.mat-primary {
+  background-color: #2b9e69 !important;
+  color: #fff !important;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 500;
+  &:disabled {
+    background-color: #c2c2c2 !important;
   }
+}
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #2b9e69!important; 
+}
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label--float-above {
+  color: #2b9e69!important; 
 }

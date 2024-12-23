@@ -1,26 +1,20 @@
 import {
-  AfterViewInit,
   Directive,
-  ElementRef,
-  inject,
-  Renderer2,
+  HostListener,
 } from '@angular/core';
 
 @Directive({
   selector: '[appNameCapitalize]',
+  standalone: true,
 })
-export class NameCapitalizeDirective implements AfterViewInit {
-  #element = inject(ElementRef);
-  #renderer = inject(Renderer2);
-
-  ngAfterViewInit() {
-    this.setNameCapitalize();
-    console.log('hola')
+export class NameCapitalizeDirective {
+  @HostListener('input', ['$event'])
+  onInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = this.capitalize(input.value);
   }
-  setNameCapitalize() {
-    const element = this.#element.nativeElement
-    const text = element.value.toCapitalize(); 
-    console.log(element, text)
-    this.#renderer.setProperty(element, 'value', text);
+
+  private capitalize(input: string): string {
+    return input.replace(/\b\w/g, (char) => char.toUpperCase());
   }
 }
