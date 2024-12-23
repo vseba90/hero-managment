@@ -1,86 +1,56 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { HeroeModel } from '../hero/models/heroe.model';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, map, Observable, of, Subject, takeUntil, tap } from 'rxjs';
+import { HeroModel, PaginatedHeroes } from '../hero/models/heroe.model';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { HeroComponent } from '../hero/hero.component';
 
+const BASE_URL = `${environment.serverUrl}`;
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {
-  heroes = new BehaviorSubject<HeroeModel[]>([
-    {
-      id: 1,
-      name: 'SpiderMan',
-      power: 'Sentido Aracnido',
-      height: 180,
-      weight: 65,
-      enemy: 'Venom',
-    },
-    {
-      id: 22,
-      name: 'Superman',
-      power: 'Super Fuerza',
-      height: 195,
-      weight: 80,
-      enemy: 'Criptonita',
-    },
-    {
-      id: 33,
-      name: 'Thor',
-      power: 'Fuerza, Dios',
-      height: 200,
-      weight: 100,
-      enemy: 'Thanos',
-    },
-    {
-      id: 44,
-      name: 'Hulk',
-      power: 'Poder nuclear',
-      height: 380,
-      weight: 150,
-      enemy: 'Iron Man',
-    },
-  ]);
+  #http = inject(HttpClient);
 
-  isLoadingSubject = new BehaviorSubject<boolean>(false);
-  isLoading$ = this.isLoadingSubject.asObservable();
+  #unsubscribe = new Subject<void>();
+  heroes = new BehaviorSubject<HeroModel[]>([]);
+  totalHeroes = new BehaviorSubject<number>(0)
 
-  getHeroes(): Observable<HeroeModel[]> {
-    this.isLoadingSubject.next(true);
-    setTimeout(() => {
-      this.isLoadingSubject.next(false);
-    }, 1000);
-    return this.heroes.asObservable();
+
+  getPaginatedHeroes(pageIndex: number, pageSize: number) {
+    const endpoint = `${BASE_URL}/heroes?_page=${pageIndex}&_per_page=${pageSize}&_sort=name`;
+    return this.#http
+      .get<PaginatedHeroes>(endpoint)
+      .pipe(
+        tap((heroes) => {
+          this.heroes.next(heroes.data);
+          this.totalHeroes.next(heroes.items)
+        }),
+        takeUntil(this.#unsubscribe)
+      )
   }
-  putHero(hero: HeroeModel) {
-    const updatedHeroes = this.heroes.getValue().map((actualHero) => {
-      if (actualHero.id == hero.id) {
-        return { ...hero, ...hero };
-      }
-      return actualHero
-    });
-
-    this.heroes.next(updatedHeroes);
+  putHero(id: string, hero: HeroModel) {
+    const endpoint = `${BASE_URL}/heroes/${id}`;
+    return this.#http.put(endpoint, hero);
   }
 
-  createHero(hero: HeroeModel) {
-    this.isLoadingSubject.next(true);
-    this.heroes.next([...this.heroes.getValue(), hero]);
-    this.isLoadingSubject.next(false);
+  createHero(hero: HeroModel) {
+    const endpoint = `${BASE_URL}/heroes`;
+    return this.#http.post<HeroModel>(endpoint, hero);
   }
 
-  deleteHeroe(id: number) {
-    this.isLoadingSubject.next(true);
-    const updatedHeroes = this.heroes
-      .getValue()
-      .filter((hero) => hero.id !== id);
-
-    this.isLoadingSubject.next(false);
-    this.heroes.next(updatedHeroes);
+  deleteHeroe(id: string) {
+    const endpoint = `${BASE_URL}/heroes/${id}`;
+    return this.#http.delete(endpoint);
   }
 
-  getHeroById(id: number) {
-    this.isLoadingSubject.next(true);
-    const hero = this.heroes.getValue().find((hero) => hero.id == id);
-    return of(hero);
+  searchHeroe(word: string) {
+    const endpoint = `${BASE_URL}/heroes?name_like=${word}`;
+    return this.#http.get(endpoint);
+  }
+
+  getHeroById(id: string): Observable<HeroModel> {
+    const endpoint = `${BASE_URL}/heroes?id=${id}`;
+    return this.#http.get<HeroModel>(endpoint);
   }
 }

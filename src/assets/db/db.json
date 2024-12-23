@@ -1,0 +1,36 @@
+{
+  "heroes": [
+    {
+      "id": "5b16",
+      "name": "Spiderman",
+      "power": "Sentido Aracnidoi",
+      "height": 2003,
+      "weight": 2342,
+      "enemy": "adada"
+    },
+    {
+      "id": "2379",
+      "name": "Marvel",
+      "power": "Marvel",
+      "height": 44,
+      "weight": 212,
+      "enemy": "sasdsa"
+    },
+    {
+      "id": "5c10",
+      "name": "Hulk",
+      "power": "Verde",
+      "height": 200,
+      "weight": 200,
+      "enemy": "Todo"
+    },
+    {
+      "id": "6b60",
+      "name": "Capitan America",
+      "power": "Fuerza",
+      "height": 220,
+      "weight": 150,
+      "enemy": "Soldado del Invierno"
+    }
+  ]
+}

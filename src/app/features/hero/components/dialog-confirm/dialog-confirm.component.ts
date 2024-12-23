@@ -10,7 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HeroeModel } from '../../models/heroe.model';
+import { HeroModel } from '../../models/heroe.model';
 @Component({
   selector: 'app-dialog-confirm',
   standalone: true,
@@ -29,7 +29,7 @@ import { HeroeModel } from '../../models/heroe.model';
 export class DialogConfirmComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogConfirmComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: HeroeModel
+    @Inject(MAT_DIALOG_DATA) public data: HeroModel
   ) {}
 
   onNoClick(): void {

@@ -3,14 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-export function HttpLoaderFactory(http: HttpClient){
-  return new TranslateHttpLoader(http, '/assets/i18n', '.json'); 
-}
-
+import { LoadingInterceptor } from './features/interceptor/loading.inteceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,13 +14,13 @@ export function HttpLoaderFactory(http: HttpClient){
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    TranslateModule.forRoot({
-      loader:{
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
