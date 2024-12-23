@@ -53,8 +53,8 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator *ngIf="vm.data.isPaginatorAvailable && vm.data.totalHeroes > 5" [length]="vm.data.totalHeroes" [pageSize]="5"
-                (page)="handlePageEvent($event)"></mat-paginator>
+            <mat-paginator *ngIf="vm.data.isPaginatorAvailable && vm.data.totalHeroes > 5"
+                [length]="vm.data.totalHeroes" [pageSize]="5" (page)="handlePageEvent($event)"></mat-paginator>
         </div>
     </ng-container>
     <ng-template #emptyList>

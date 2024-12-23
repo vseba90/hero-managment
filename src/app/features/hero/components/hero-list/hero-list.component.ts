@@ -87,6 +87,7 @@ export class HeroListComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    this.#heroService.isPaginatorAvailable.next(true);
     this.#heroService
       .getPaginatedHeroes(this.pageIndex, this.pageSize)
       .pipe(takeUntil(this.#unsubscribe))
