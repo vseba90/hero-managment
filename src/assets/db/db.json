@@ -4,17 +4,9 @@
       "id": "5b16",
       "name": "Spiderman",
       "power": "Sentido Aracnidoi",
-      "height": 2003,
-      "weight": 2342,
-      "enemy": "adada"
-    },
-    {
-      "id": "2379",
-      "name": "Marvel",
-      "power": "Marvel",
-      "height": 44,
-      "weight": 212,
-      "enemy": "sasdsa"
+      "height": 175,
+      "weight": 65,
+      "enemy": "Venom"
     },
     {
       "id": "5c10",
@@ -31,6 +23,14 @@
       "height": 220,
       "weight": 150,
       "enemy": "Soldado del Invierno"
+    },
+    {
+      "id": "4ffa",
+      "name": "IronMan",
+      "power": "Millonario",
+      "height": 180,
+      "weight": 100,
+      "enemy": "Imanes"
     }
   ]
 }

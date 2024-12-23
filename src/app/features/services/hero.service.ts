@@ -3,7 +3,6 @@ import { BehaviorSubject, map, Observable, of, Subject, takeUntil, tap } from 'r
 import { HeroModel, PaginatedHeroes } from '../hero/models/heroe.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HeroComponent } from '../hero/hero.component';
 
 const BASE_URL = `${environment.serverUrl}`;
 @Injectable({
@@ -18,7 +17,8 @@ export class HeroService {
 
 
   getPaginatedHeroes(pageIndex: number, pageSize: number) {
-    const endpoint = `${BASE_URL}/heroes?_page=${pageIndex}&_per_page=${pageSize}&_sort=name`;
+    let endpoint = `${BASE_URL}/heroes?_page=${pageIndex}&_per_page=${pageSize}&_sort=name`;
+
     return this.#http
       .get<PaginatedHeroes>(endpoint)
       .pipe(
@@ -29,6 +29,24 @@ export class HeroService {
         takeUntil(this.#unsubscribe)
       )
   }
+
+  getHeroes(searchFilter: string){
+    let endpoint = `${BASE_URL}/heroes`;
+    return this.#http
+      .get<HeroModel[]>(endpoint)
+      .pipe(
+        tap((heroes) => {
+          if (heroes) {
+            const filterHeroes = heroes.filter((hero) =>
+              hero.name.toLowerCase().includes(searchFilter.toLowerCase())
+            );
+            this.heroes.next(filterHeroes);
+          }
+        }),
+        takeUntil(this.#unsubscribe)
+      )
+  }
+
   putHero(id: string, hero: HeroModel) {
     const endpoint = `${BASE_URL}/heroes/${id}`;
     return this.#http.put(endpoint, hero);
@@ -42,11 +60,6 @@ export class HeroService {
   deleteHeroe(id: string) {
     const endpoint = `${BASE_URL}/heroes/${id}`;
     return this.#http.delete(endpoint);
-  }
-
-  searchHeroe(word: string) {
-    const endpoint = `${BASE_URL}/heroes?name_like=${word}`;
-    return this.#http.get(endpoint);
   }
 
   getHeroById(id: string): Observable<HeroModel> {
