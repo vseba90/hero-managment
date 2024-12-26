@@ -1,24 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { HeroService } from './hero.service';
 import { environment } from 'src/environments/environment';
 import { PaginatedHeroes, HeroModel } from '../hero/models/heroe.model';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AppComponent } from 'src/app/app.component';
+import { provideHttpClient } from '@angular/common/http';
+
 describe('HeroService', () => {
   let service: HeroService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         HeroService,
       ],
     });

@@ -1,3 +1,10 @@
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -16,8 +23,9 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NameCapitalizeDirective } from 'src/app/features/directive/name-capitalize';
 import { HeroService } from 'src/app/features/services/hero.service';
 import { SharedService } from 'src/app/features/services/shared.service';
@@ -47,20 +55,22 @@ export class UpsertHeroComponent implements OnInit, OnDestroy {
   #unsubscribe = new Subject<void>();
 
   heroeForm: FormGroup;
-  id = this.activatedRoute.snapshot.params['id'];
-
+  id: string;
   ngOnInit(): void {
     this.initForm();
-    if (this.id) {
-      this.#heroesServices
-        .getHeroById(this.id)
-        .pipe(takeUntil(this.#unsubscribe))
-        .subscribe((hero) => {
-          if (hero) {
-            this.heroeForm.patchValue(hero[0]);
-          }
-        });
-    }
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.id = params.get('id');
+      if (this.id) {
+        this.#heroesServices
+          .getHeroById(this.id)
+          .pipe(takeUntil(this.#unsubscribe))
+          .subscribe((hero) => {
+            if (hero) {
+              this.heroeForm.patchValue(hero[0]);
+            }
+          });
+      }
+    });
   }
 
   initForm() {

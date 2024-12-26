@@ -27,7 +27,6 @@ import {
   takeUntil,
 } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { SharedService } from 'src/app/features/services/shared.service';
 import {
   MatPaginator,
@@ -48,8 +47,7 @@ import {
     MatIconModule,
     MatTooltipModule,
     RouterModule,
-    MatPaginatorModule,
-    HttpClientModule,
+    MatPaginatorModule
   ],
   templateUrl: './hero-list.component.html',
   styleUrl: './hero-list.component.scss',

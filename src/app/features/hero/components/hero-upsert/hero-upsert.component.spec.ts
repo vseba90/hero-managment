@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UpsertHeroComponent } from './hero-upsert.component';
+import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
+import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UpsertHeroComponent', () => {
   let component: UpsertHeroComponent;
@@ -8,9 +13,19 @@ describe('UpsertHeroComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UpsertHeroComponent]
-    })
-    .compileComponents();
+      imports: [UpsertHeroComponent, NoopAnimationsModule],
+      providers: [
+        provideHttpClient(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of(convertToParamMap({ id: '1' })),
+            params: of({ id: '1' }),
+            queryParams: of({}),
+          },
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UpsertHeroComponent);
     component = fixture.componentInstance;
